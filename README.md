@@ -57,4 +57,4 @@ python plotMCMCResults.py
 All results are stored in the *pics* directory. 
 
 ### References 
-Please see our paper [Software X Paper](A link) for more details on the numerical underpinnings of CU-RJMCMCp. In addition to the paper, we present our [derivation and proof](https://github.coecis.cornell.edu/jtc278/cornellResearch/blob/master/CU-RJMCMCp/CU_RJMCMCp_Theoretical_Underpinnings.pdf) of the theoretical foundation that shows that the parallel approach used in CU-RJMCMCp leads to the same joint model and model-parameter distribution as the standard RJMCMC.
+Please see our paper [Software X Paper](A link) for more details on the numerical underpinnings of CU-RJMCMCp. In addition to the paper, we present our [derivation and proof](hhttps://github.com/jtchavisIII/CU-RJMCMCp/blob/master/docs/CU_RJMCMCp_Theoretical_Underpinnings.pdf) of the theoretical foundation that shows that the parallel approach used in CU-RJMCMCp leads to the same joint model and model-parameter distribution as the standard RJMCMC.
