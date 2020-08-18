@@ -1,3 +1,0 @@
-Name,Index
-Negative Binomial,0
-Poisson,1
