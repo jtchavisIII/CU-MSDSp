@@ -1,17 +1,17 @@
 # CU-RJMCMCp 
 
 ### Overview 
-Often times, researchers need to decide which parameterized model best fits the system they are observing. Model selection is a challenging problem and is further compounded when one must infer the associated parameters for each model. Reversible Jump Markov Chain Monte Carlo (RJMCMC) methods is a trans-dimensional Bayesian algorithm that can be used to simultaneously infer the joint distribution o both the model and model-parameter space. CU-RJMCMCp is a generalized, parallel implementation of RJMCMC that provides researchers with a more accessible, flexible, robust approach to instantaneous model and model parameter space. 
+Oftentimes, researchers must decide which parameterized model best fits the system they are observing. This type of model selection is a challenging problem, whose challenges are further compounded when inferring the associated parameters for each model. The Reversible Jump Markov Chain Monte Carlo (RJMCMC) method is a trans-dimensional Bayesian algorithm that can be used to simultaneously infer the joint distribution o both the model and model-parameter space. CU-RJMCMCp offers a generalized, parallel implementation of RJMCMC that provides researchers with an accessible, flexible, and objectively reliable approach to inference on the joint model and model parameter space. 
 
 ### Objectives 
-* Provide a clean and accessible software implementation for users to carry RJMCMC in parallel. 
+* Provide an accessible, extendable, reliable RJMCMC software implementation for users to carry out in parallel. 
 
 ### Description and Background
-CU-RJMCMCp begins an analysis by infering model paramter distributions for each competing model in order that these results may subsequently be used to infer the model space probabilities. Specifically, CU-RJMCMCp first independently forms converged approximations for each of the competing model's parameter joint posterior distribution using the [Stan API](https://mc-stan.org/) interface. The collection of samples corresponding to the converged joint posteriors referred to as "gold standard chains". These gold standard chains are then used in a parallel RJMCMC algorithm, via Message Passing Interace (MPI), to assess the model probabilities. A schematic of this algorithm is shown below: 
+CU-RJMCMCp begins an analysis by infering model paramter distributions for each competing model, in order that these results may subsequently be used to infer the model space probabilities. Specifically, CU-RJMCMCp first independently forms converged approximations for each of the competing model's parameter joint posterior distribution using the [Stan API](https://mc-stan.org/) interface. The collection of samples corresponding to the converged joint posteriors is referred to as "gold standard chains". These gold standard chains are then used in a parallel RJMCMC algorithm, via Message Passing Interace (MPI), to assess the model probabilities. A schematic of this algorithm is shown below: 
 
 <img src="docs/rjmcmcDiagram/rjmcmcDiagram.png" align="center" width="400" />
 
-We assume that users have a general background in Bayesian Statistics and Markov Chain Monte Carlo (MCMC) methods. While not necessary, we beleive it benefits to have an understanding about RJMCMC and refer readers to [Green RJMCMC](how to cite) for a more details about this trans-dimensional algorithm. 
+We assume that users have a general background in Bayesian Statistics and Markov Chain Monte Carlo (MCMC) methods. While not necessary, we beleive it beneficial to have some understanding of RJMCMC and refer readers to [Green RJMCMC](how to cite) for more details on this trans-dimensional algorithm. 
 
 ### Installation 
 #### Dependencies 
@@ -45,7 +45,7 @@ CU-RJMCMp is run in bash as follows:
 sh runParallel.sh
 ```
 
-CU-RJMCMCp will output the samples for each gold standard chain in the *goldStandardChains* directory. These results are produced by cmdstan. The results of model selection are within the *modelSelection* directory. The chain samples as well as the resulting acceptance probability from the simualation are included within *modelSelection*. We note that users can check MCMC congergence diagnostics by using some of the built-in capabilities of cmdstan. Finally a mapping of the model name and model index will be provided in the home directory as *modelIndex.txt*
+CU-RJMCMCp will output the samples for each gold standard chain in the *goldStandardChains* directory. These results are produced by cmdstan. The results of model selection are collected within the *modelSelection* directory. The chain samples, as well as the corresponding acceptance probability from the simualation, are included within *modelSelection*. We note that users can check MCMC congergence diagnostics by using some of the built-in capabilities of cmdstan. Finally a mapping of the model name and model index will be provided in the home directory as *modelIndex.txt*
 
 5. Visualize Results
 Some basic visualization are built into CU-RJMCMCp. Specifically, parameter histogram and parameter trace plots are provided for each model. In addition, the distribtuion of the model probabilities and the acceptance probabilites are also visualized. The plotting function is specified in the config file, but can be run seperately by 
