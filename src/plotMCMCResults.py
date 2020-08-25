@@ -1,4 +1,4 @@
-'''
+f'''
 AUTHOR: John Chavis
 DATE: 2019-NOV-12
 NAME: plotCRjrmcmc.py
@@ -106,8 +106,8 @@ for line in lineStyleList:
 
 LINEWIDTH = 0.5
 ALPHA = 0.7
-FONTSIZE = 20
-
+FONTSIZE = 14
+TITLESIZE = 18
 #Fraction of maximum to add for setting yLim 
 MAXFRAC = 0.1
 #print(colors)
@@ -264,9 +264,9 @@ def plotModelDist(modCount, dataDic):
 	for k in range(modCount):
 		barList[k].set_color(colorOpt[k][0])
 
-	modelAx.set_title('Model Distribution')
-	modelAx.set_xlabel('Model Index')
-	modelAx.set_ylabel('Counts')
+	modelAx.set_title('Model Distribution', fontsize=TITLESIZE)
+	modelAx.set_xlabel('Model Index',fontsize=FONTSIZE)
+	modelAx.set_ylabel('Counts',fontsize=FONTSIZE)
 	plt.xticks(x,dataDic['modelName'])
 
 	return modelFig
@@ -289,11 +289,11 @@ def plotAcceptance(chainMax, dataDic):
 		acceptAx.plot(np.arange(0,chainLength), data[:], color= colorOpt[chain][0], linestyle=colorOpt[chain][1], linewidth = LINEWIDTH, label= 'Chain {}'.format(chain+1), alpha=ALPHA)
 
 	#fullAx.set_xlabel('Time')
-	acceptAx.set_ylabel('Accept Ratio')
+	acceptAx.set_ylabel('Accept Ratio',fontsize=FONTSIZE)
 	acceptAx.set_ylim((0,1))
 	#acceptAx.set_xlabel('Chain')
-	acceptAx.legend(loc='lower right',facecolor='black', framealpha=0.3,fontsize=10,ncol=2)
-	acceptAx.set_title('Acceptance Probability')
+	acceptAx.legend(loc='lower right',facecolor='white', framealpha=0.3,fontsize=12,ncol=2)
+	acceptAx.set_title('Acceptance Probability', fontsize=FONTSIZE)
 
 	return acceptFig
 
@@ -338,15 +338,16 @@ def plotParamters(modCount, chainMax, dataDic):
 				paramAx[1].plot(x, data, color= colorOpt[chain-1][0], linestyle=colorOpt[chain-1][1], linewidth = LINEWIDTH, label= 'Chain {}'.format(chain), alpha=ALPHA)
 
 
-			paramAx[1].set_ylabel(parName)
-			paramAx[1].set_title('Trace Plot')
-			paramAx[1].legend(loc='lower right',facecolor='black', framealpha=0.3,fontsize=10,ncol=2)
+			paramAx[1].set_ylabel(parName,fontsize=FONTSIZE)
+			paramAx[1].set_title('Trace Plot', fontsize=TITLESIZE)
+			paramAx[1].legend(loc='lower right',facecolor='white', framealpha=0.3,fontsize=12,ncol=2)
+			paramAx[1].legend(loc='lower right',facecolor='black', framealpha=0.3,fontsize=12,ncol=2)
 
 			#PLot Distribution 	
 			paramAx[0].hist(data, BINS,  density= True, facecolor= colorOpt[k][0], alpha=ALPHA)
-			paramAx[0].set_xlabel(parName)
-			paramAx[0].set_ylabel('Denisty')
-			paramAx[0].set_title('Paramter Distribution')
+			paramAx[0].set_xlabel(parName,fontsize=FONTSIZE)
+			paramAx[0].set_ylabel('Denisty', fontsize=FONTSIZE)
+			paramAx[0].set_title('Paramter Distribution', fontsize=TITLESIZE)
 
 			#save fig 
 			paramFig.savefig('{}{}/{}Plot.png'.format(picDir,modelName,parName))
@@ -369,9 +370,10 @@ def plotParamters(modCount, chainMax, dataDic):
 			logAx.plot(x, data, color= colorOpt[chain-1][0], linestyle=colorOpt[chain-1][1], linewidth = LINEWIDTH, label= 'Chain {}'.format(chain), alpha=ALPHA)
 
 
-			logAx.set_ylabel(parName)
-			logAx.set_title('{} Log-Likelihood Plot'.format(dataDic['modelName'][k]))
-			logAx.legend(loc='lower right',facecolor='black', framealpha=0.3,fontsize=10,ncol=2)
+			logAx.set_ylabel('Log-Likelihood', fontsize=FONTSIZE)
+			logAx.legend(loc='lower right',facecolor='white', framealpha=0.3,fontsize=12,ncol=2)
+			logAx.set_title('{} Log-Likelihood Plot'.format(dataDic['modelName'][k]), fontsize=TITLESIZE)
+			logAx.legend(loc='lower right',facecolor='black', framealpha=0.3,fontsize=12,ncol=2)
 
 			logFig.savefig('{}{}/logLikelihood.png'.format(picDir, modelName))
 
