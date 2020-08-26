@@ -1,8 +1,8 @@
 f'''
 AUTHOR: John Chavis
 DATE: 2019-NOV-12
-NAME: plotCRjrmcmc.py
-DESC: This script will trace plots for poisson MCMC. 
+NAME: plotMCMCResults.py
+DESC: This script will plots resuts from software
 
 
 MIT License
@@ -54,9 +54,7 @@ import sys
 picDir = 'pics/' 
 
 
-#Figure Sizes
-HEIGHT = 10
-WIDTH = 10
+
 
 #Hisgotram info 
 BINS = 50 
@@ -106,8 +104,32 @@ for line in lineStyleList:
 
 LINEWIDTH = 0.5
 ALPHA = 0.7
-FONTSIZE = 14
-TITLESIZE = 18
+
+
+
+#Set sizes of plots
+#Default font size
+#Figure Sizes
+HEIGHT = 20
+WIDTH = 20
+
+DEFAULTSIZE = 12
+AXTITLESIZE = 45
+LABELSIZE = 32
+TICKSIZE = 28
+LEGENDSIZE = 14
+FIGTITLESIZE = 32
+
+plt.rc('font', size=DEFAULTSIZE)
+
+#Axes title and labe size 
+plt.rc('axes', titlesize = AXTITLESIZE)
+plt.rc('axes', labelsize = LABELSIZE)
+plt.rc('xtick', labelsize = TICKSIZE)
+plt.rc('ytick', labelsize=TICKSIZE)
+plt.rc('legend', fontsize=LEGENDSIZE)
+plt.rc('figure', titlesize=FIGTITLESIZE)
+
 #Fraction of maximum to add for setting yLim 
 MAXFRAC = 0.1
 #print(colors)
@@ -255,7 +277,7 @@ def plotModelDist(modCount, dataDic):
 	x = np.arange(modCount)
 
 	#distAx.hist(allData, 50, density= True, facecolor='blue', alpha=0.7)
-	modelFig, modelAx = plt.subplots(figsize=(HEIGHT,WIDTH))
+	modelFig, modelAx = plt.subplots(figsize=((WIDTH,HEIGHT)))
 
 	#print(counts)
 	#print(dataList)
@@ -264,9 +286,9 @@ def plotModelDist(modCount, dataDic):
 	for k in range(modCount):
 		barList[k].set_color(colorOpt[k][0])
 
-	modelAx.set_title('Model Distribution', fontsize=TITLESIZE)
-	modelAx.set_xlabel('Model Index',fontsize=FONTSIZE)
-	modelAx.set_ylabel('Counts',fontsize=FONTSIZE)
+	modelAx.set_title('Model Distribution')
+	modelAx.set_xlabel('Model Index')
+	modelAx.set_ylabel('Counts')
 	plt.xticks(x,dataDic['modelName'])
 
 	return modelFig
@@ -281,7 +303,7 @@ def plotAcceptance(chainMax, dataDic):
 	chainLength = len(dataDic['accept'][0])
 
 	### PLot Acceptrances 
-	acceptFig, acceptAx = plt.subplots(figsize=(HEIGHT,WIDTH))
+	acceptFig, acceptAx = plt.subplots(figsize=((WIDTH,HEIGHT)))
 	
 	#chainLength = chainLength/2
 	for chain in range(chainMax):
@@ -289,11 +311,11 @@ def plotAcceptance(chainMax, dataDic):
 		acceptAx.plot(np.arange(0,chainLength), data[:], color= colorOpt[chain][0], linestyle=colorOpt[chain][1], linewidth = LINEWIDTH, label= 'Chain {}'.format(chain+1), alpha=ALPHA)
 
 	#fullAx.set_xlabel('Time')
-	acceptAx.set_ylabel('Accept Ratio',fontsize=FONTSIZE)
+	acceptAx.set_ylabel('Accept Ratio')
 	acceptAx.set_ylim((0,1))
 	#acceptAx.set_xlabel('Chain')
-	acceptAx.legend(loc='lower right',facecolor='white', framealpha=0.3,fontsize=12,ncol=2)
-	acceptAx.set_title('Acceptance Probability', fontsize=FONTSIZE)
+	acceptAx.legend(loc='lower right',facecolor='white', framealpha=0.3,ncol=2)
+	acceptAx.set_title('Acceptance Probability')
 
 	return acceptFig
 
@@ -316,7 +338,7 @@ def plotParamters(modCount, chainMax, dataDic):
 		#Collect distribution adn trace for each paramter....We need the data 
 		for param in range(totParam): 
 			#For now we'll just plot the Paramter Distribution, Trace PLot
-			paramFig, paramAx = plt.subplots(2,1, figsize=(HEIGHT,WIDTH))
+			paramFig, paramAx = plt.subplots(2,1, figsize=((WIDTH,HEIGHT+2)))
 
 			parName = dataDic['modelParam']['{}Header'.format(modelName)][param]
 			#For aggerating the stationary data 
@@ -338,16 +360,16 @@ def plotParamters(modCount, chainMax, dataDic):
 				paramAx[1].plot(x, data, color= colorOpt[chain-1][0], linestyle=colorOpt[chain-1][1], linewidth = LINEWIDTH, label= 'Chain {}'.format(chain), alpha=ALPHA)
 
 
-			paramAx[1].set_ylabel(parName,fontsize=FONTSIZE)
-			paramAx[1].set_title('Trace Plot', fontsize=TITLESIZE)
-			paramAx[1].legend(loc='lower right',facecolor='white', framealpha=0.3,fontsize=12,ncol=2)
-			paramAx[1].legend(loc='lower right',facecolor='black', framealpha=0.3,fontsize=12,ncol=2)
+			paramAx[1].set_ylabel(parName)
+			paramAx[1].set_title('Trace Plot')
+			paramAx[1].legend(loc='lower right',facecolor='white', framealpha=0.3,ncol=2)
+			#paramAx[1].legend(loc='lower right',facecolor='black', framealpha=0.3,ncol=2)
 
 			#PLot Distribution 	
 			paramAx[0].hist(data, BINS,  density= True, facecolor= colorOpt[k][0], alpha=ALPHA)
-			paramAx[0].set_xlabel(parName,fontsize=FONTSIZE)
-			paramAx[0].set_ylabel('Denisty', fontsize=FONTSIZE)
-			paramAx[0].set_title('Paramter Distribution', fontsize=TITLESIZE)
+			paramAx[0].set_xlabel(parName)
+			paramAx[0].set_ylabel('Denisty')
+			paramAx[0].set_title('Paramter Distribution')
 
 			#save fig 
 			paramFig.savefig('{}{}/{}Plot.png'.format(picDir,modelName,parName))
@@ -358,7 +380,7 @@ def plotParamters(modCount, chainMax, dataDic):
 			#plt.close()
 
 		#Plot Loglikelihod for the models 
-		logFig, logAx = plt.subplots(figsize=(HEIGHT,WIDTH))
+		logFig, logAx = plt.subplots(figsize=((WIDTH,HEIGHT)))
 		for chain in range(1,chainMax+1):
 			data = dataDic['modelParam'][modelName][chain-1][:,totParam] 
 			#Assuming that resulst are stationary....again we'll need to factor in 
@@ -370,10 +392,10 @@ def plotParamters(modCount, chainMax, dataDic):
 			logAx.plot(x, data, color= colorOpt[chain-1][0], linestyle=colorOpt[chain-1][1], linewidth = LINEWIDTH, label= 'Chain {}'.format(chain), alpha=ALPHA)
 
 
-			logAx.set_ylabel('Log-Likelihood', fontsize=FONTSIZE)
-			logAx.legend(loc='lower right',facecolor='white', framealpha=0.3,fontsize=12,ncol=2)
-			logAx.set_title('{} Log-Likelihood Plot'.format(dataDic['modelName'][k]), fontsize=TITLESIZE)
-			logAx.legend(loc='lower right',facecolor='black', framealpha=0.3,fontsize=12,ncol=2)
+			logAx.set_ylabel('Log-Likelihood')
+			logAx.legend(loc='lower right',facecolor='white', framealpha=0.3,ncol=2)
+			logAx.set_title('{} Log-Likelihood Plot'.format(dataDic['modelName'][k]))
+			#logAx.legend(loc='lower right',facecolor='black', framealpha=0.3,fontsize=12,ncol=2)
 
 			logFig.savefig('{}{}/logLikelihood.png'.format(picDir, modelName))
 
