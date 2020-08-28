@@ -57,4 +57,4 @@ python plotMCMCResults.py
 All results are stored in the *pics* directory. 
 
 ### References 
-Please see our paper [Software X Paper](A link) for more details on the numerical underpinnings of CU-MSDSp. In addition to the paper, we present our [derivation and proof](hhttps://github.com/jtchavisIII/CU-MSDSp/blob/master/docs/CU_MSDSp_Theoretical_Underpinnings.pdf) of the theoretical foundation that shows that the parallel approach used in CU-MSDSp leads to the same joint model and model-parameter distribution as the standard RJMCMC.
+Please see our paper [Software X Paper](A link) for more details on the numerical underpinnings of CU-MSDSp. In addition to the paper, we present our [derivation and proof](https://github.com/jtchavisIII/CU-MSDSp/blob/master/docs/CU_MSDSp_Theoretical_Underpinnings.pdf) of the theoretical foundation that shows that the parallel approach used in CU-MSDSp leads to the same joint model and model-parameter distribution as the standard RJMCMC.
