@@ -1,7 +1,7 @@
 /*
 AUTHOR: John Chavis
 NAME: bodypRJMCMC.c 
-DESCRIPTION: Body of the Phase Two of CU-RJMCMCp
+DESCRIPTION: Body of the Phase Two of CU-MSDSp
 
 
 MIT License
