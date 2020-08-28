@@ -1,4 +1,4 @@
-# CU-MSDSp: Cornell Univeristy - Model Selection Depedendent Search 
+# CU-MSDSp: Cornell Univeristy - Model Selection Depedendent Search in Parallel 
 
 ### Overview 
 Oftentimes, researchers must decide which parameterized model best fits the system they are observing. This type of model selection is a challenging problem, whose challenges are further compounded when inferring the associated parameters for each model. The Reversible Jump Markov Chain Monte Carlo (RJMCMC) method is a trans-dimensional Bayesian algorithm that can be used to simultaneously infer the joint distribution o both the model and model-parameter space. CU-MSDSp offers a generalized, parallel implementation of RJMCMC that provides researchers with an accessible, flexible, and objectively reliable approach to inference on the joint model and model parameter space. 
