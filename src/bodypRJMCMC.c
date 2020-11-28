@@ -342,7 +342,7 @@ double acceptCrawler(int kC, int kP, double cLikelihood, double pLikelihood, dou
 
 
 /* ------------------------------------------------------------------ */
-/* 										RJMCMC 																						*/
+/*                    RJMCMC                                            */
 /* ------------------------------------------------------------------ */
 //Name: rjmcmc Crawler
 //INPUT: 
@@ -438,7 +438,7 @@ double * rjmcmcCrawler(int chain, double *A, int * nParamVec, int myId){
   //Simulation 
   for (link = 1; link < CHAINLEN; link++){
 
-  	//Get current model 
+    //Get current model 
     kC = *((crawlRes + (link-1)*2) + 0);
 
     //Find chain position (column)
@@ -446,7 +446,8 @@ double * rjmcmcCrawler(int chain, double *A, int * nParamVec, int myId){
 
     //Upper intt -lower int +1 + lower 
     //curTime = (rand() % CHAINLEN ) -1;
-    curTime =  (gsl_rng_get(r) % CHAINLEN) -1;
+    //curTime =  (gsl_rng_get(r) % CHAINLEN) -1;
+    curTime = gsl_rng_uniform_int(r, CHAINLEN); 
     indx = chainPos*CHAINLEN*(MAXPARAM+1) + (curTime)*(MAXPARAM+1); 
 
     //Grab likelihood from our dataStructure 
@@ -454,16 +455,17 @@ double * rjmcmcCrawler(int chain, double *A, int * nParamVec, int myId){
 
 
 
-  	//Propose a new model 
-  	kP = proposedModel(kC); 
+    //Propose a new model 
+    kP = proposedModel(kC); 
 
     //Find chain position (column)
     chainPosP = kP*CHAINS + chain; 
 
     //Upper intt -lower int +1 + lower 
     //propTime = (rand() % CHAINLEN ) -1;
-    propTime = (gsl_rng_get(r) % CHAINLEN) -1; 
-
+    //propTime = (gsl_rng_get(r) % CHAINLEN) -1; 
+    propTime = gsl_rng_uniform_int(r, CHAINLEN); 
+    
     indxP = chainPosP*CHAINLEN*(MAXPARAM+1) + (propTime)*(MAXPARAM+1); 
 
     pLikelihood = *(A + indxP + 0); 
@@ -518,7 +520,7 @@ int main(int argc, char **argv){
   int h; 
 
   //For opening up data 
-  char *fileName; 
+  
   double *data;
   int totData;
 
@@ -533,7 +535,7 @@ int main(int argc, char **argv){
   int col; 
   int colCount; 
 
- 	double acceptProb; 
+  double acceptProb; 
 
   //For saving gold standard chains 
   char resName[STRINGLEN]; 
@@ -598,7 +600,10 @@ int main(int argc, char **argv){
   int row; 
   double x; 
 
-
+  //char *fileName;   
+  char fileName[200];
+  char buffer[50]; 
+  
   //Creat the A matrix 
 
   //Start clock
@@ -623,10 +628,23 @@ int main(int argc, char **argv){
         
         //printf("Model %d Chain %d \n", k, chain);
 
-        snprintf(fileName, STRINGLEN, "goldStandardChains/model%d/gsc%d.csv",k,chain+1);
+        //snprintf(fileName, STRINGLEN, "goldStandardChains/model%d/gsc%d.csv",k,chain+1);
+        //snprintf(fileName, "goldStandardChains/model%d/gsc%d.csv",k,chain+1);
+        strcpy(fileName, "goldStandardChains/model");
+        sprintf(buffer, "%d", k); 
+        strcat(fileName, buffer); 
+        strcat(fileName, "/gsc"); 
+        
+        sprintf(buffer, "%d", chain+1);
+        strcat(fileName, buffer); 
+        strcat(fileName,".csv"); 
+
+        //Hard coded for right now
+        
+        
         //fileName = "goldStandardChains/model0/gsc1.csv";       
         //printf("Strin names %s\n", fileName);
-
+        //printf("Strin names %s\n", string);
         f  = fopen(fileName, "r");
 
         //printf("We made it here\n");
@@ -650,6 +668,7 @@ int main(int argc, char **argv){
       }
     }
 
+  
     printf("CmdSTAN CHAINS Read...\n");
     
 
