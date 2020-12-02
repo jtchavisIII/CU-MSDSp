@@ -174,12 +174,14 @@ wait
 cd "$parWD"
 
 #Now run each Model. Done in Parallel 
+#RUn for N Bathces based on cmd cores
 echo 'Running Models'
 cd proccessedModel/
 for ((k=0; k< $NMODEL; k++))
 do 
 	for ((chain=1; chain<=$NCHAIN; chain++))
 	do 
+	    ((i=i%$NCORES)); ((i++==0)) && wait
 		"./model$k" sample num_samples="$NLEN" num_warmup="$NBURN" \
 		random seed=12345 id="$chain" \
 		data file=../data/data.json output file="../goldStandardChains/model${k}/model${k}StanResults${chain}.csv" > /dev/null &
