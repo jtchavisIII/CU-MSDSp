@@ -183,12 +183,12 @@ do
 	for ((chain=1; chain<=$NCHAIN; chain++))
 	do 
 	    ((core=core%$NCORES)); ((core++==0)) && wait
+	    echo "Model $k Chain $chain Runnning...."
 		"./model$k" sample num_samples="$NLEN" num_warmup="$NBURN" \
 		random seed=12345 id="$chain" \
 		data file=../data/data.json output file="../goldStandardChains/model${k}/model${k}StanResults${chain}.csv" > /dev/null &
 		#pids[${chain}]=$!
-		#wait
-		echo "Model $k Chain $chain Runnning...."
+		#wait		
 	done
 
 done
