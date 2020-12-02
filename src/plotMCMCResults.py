@@ -377,7 +377,7 @@ def plotParamters(modCount, chainMax, dataDic):
 			#plt.clf()
 
 			figList.append(paramFig)
-			#plt.close()
+			plt.close()
 
 		#Plot Loglikelihod for the models 
 		logFig, logAx = plt.subplots(figsize=((WIDTH,HEIGHT)))
@@ -398,8 +398,10 @@ def plotParamters(modCount, chainMax, dataDic):
 			#logAx.legend(loc='lower right',facecolor='black', framealpha=0.3,fontsize=12,ncol=2)
 
 			logFig.savefig('{}{}/logLikelihood.png'.format(picDir, modelName))
+       
 
 			figList.append(logFig)
+			plt.close()
 	return figList 
 
 
