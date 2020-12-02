@@ -160,10 +160,11 @@ make build -j"$NCORES"
 
 
 #Build Each of the Users Stand Models 
-# This is done in a parallel 
+# This is done in a parallel on cmd cores
 echo "Building Models...."
 for ((i=0; i<$NMODEL; i++))
 do
+    ((core=core%$NCORES)); ((core++==0)) && wait
 	make "$parWD/proccessedModel/model$i" > /dev/null & 
 	echo "Model $i Built."
 done
@@ -181,7 +182,7 @@ for ((k=0; k< $NMODEL; k++))
 do 
 	for ((chain=1; chain<=$NCHAIN; chain++))
 	do 
-	    ((i=i%$NCORES)); ((i++==0)) && wait
+	    ((core=core%$NCORES)); ((core++==0)) && wait
 		"./model$k" sample num_samples="$NLEN" num_warmup="$NBURN" \
 		random seed=12345 id="$chain" \
 		data file=../data/data.json output file="../goldStandardChains/model${k}/model${k}StanResults${chain}.csv" > /dev/null &
