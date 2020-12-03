@@ -68,6 +68,14 @@ echo "Number of Cores for cmdstan is $NCORES"
 echo "Number of Burn-in (warm-up) samples is $NBURN"
 echo "Number of Samples to Collect is  $NLEN"
 echo "Number of NCHAIN $NCHAIN"
+
+if $PLOT; then 
+    echo "Plotting set to True"
+else
+    echo "Plotting set to False"
+fi
+
+
 printf '=%.0s' {1..80}
 
 
@@ -486,7 +494,7 @@ do
 done
 
 
-mpicc -o runRJMCMC -lm -lgsl -lgslcblas runRJMCMC.c && mpirun -np "$NPROC" ./runRJMCMC && python plotMCMCResults.py
+mpicc -o runRJMCMC -lm -lgsl -lgslcblas runRJMCMC.c && mpirun -np "$NPROC" ./runRJMCMC 
 
 
 #Now  Let's try to change files and folders back to 
@@ -519,7 +527,13 @@ rm -r proccessedModel/
 
 #Should also remove redudent files in gold standard chains 
 find . -type f -name "gsc*.csv" -delete
-find . -type f -name "*GSC*.csv" -delete
+
+#For now keep this file as we can use it for plotting..
+#find . -type f -name "*GSC*.csv" -delete
+
+if $PLOT; then 
+    python plotMCMCResults.py
+fi
 
 
 exit 

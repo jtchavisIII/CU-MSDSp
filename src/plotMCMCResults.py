@@ -193,9 +193,12 @@ def readData():
 	dataDic = {'accept':[], 'modelIndex':[], 'modelParam':{}, 'modelName':modelNameList}
 
 	for k in range(modCount):
-		dataDic['modelParam']['model{}'.format(k)] = []
-		dataDic['modelParam']['model{}Header'.format(k)] = 'TBD'
-
+		modelName = modelDic[k]
+		#dataDic['modelParam']['model{}'.format(modelName)] = []
+		#dataDic['modelParam']['model{}Header'.format(modelName)] = 'TBD'
+		dataDic['modelParam'][modelName] = []
+		dataDic['modelParam']['{}Header'.format(modelName)] = 'TBD'
+		
 	for name in ['accept', 'modelIndex']:		
 		for chain in range(1, chainMax+1): 
 			fileName = '{}{}Chain{}.csv'.format(dataDir,name, chain)
@@ -222,7 +225,8 @@ def readData():
 	#This is handy for trace plots etc, log's etc. 
 	dataDir = 'goldStandardChains/'
 	for k in range(modCount): 
-		modelName = 'model{}'.format(k)
+		#modelName = 'model{}'.format(k)
+		modelName = modelDic[k]
 		for chain in range(1, chainMax+1): 
 			fileName = '{}{}/{}GSC{}.csv'.format(dataDir, modelName,modelName,chain)
 
@@ -250,7 +254,7 @@ def readData():
 
 	#Reutrn modCount, chainMax adn data dictionary 
 
-	return modCount, chainMax, dataDic
+	return modCount, chainMax, dataDic, modelDic
 
 
 #--------------------------------
@@ -325,14 +329,15 @@ def plotAcceptance(chainMax, dataDic):
 #INPUT: modCount, chainMax, dataDic
 #OUTPUT: figure containing Distribution of paramters and trace
 #DEC: FUnction plots each models parmters distribution adn trace plot
-def plotParamters(modCount, chainMax, dataDic):
+def plotParamters(modCount, chainMax, dataDic,modelDic):
 	#Generate a plot (these we are not going to return as there may be a lot)
 	
 	figList = False
 
 	#print(data[:,0])
 	for k in range(modCount): 
-		modelName = 'model{}'.format(k)
+		#modelName = 'model{}'.format(k)
+		modelName = modelDic[k]
 		#GEt total number of partemrs (remember -1 as the last column is logModel)
 		totParam = len(dataDic['modelParam']['{}Header'.format(modelName)]) - 1
 		#Collect distribution adn trace for each paramter....We need the data 
@@ -419,14 +424,14 @@ def plotParamters(modCount, chainMax, dataDic):
 def main():
 	#Read data 
 	print('Plotting Results...')
-	modCount, chainMax, dataDic = readData()
+	modCount, chainMax, dataDic,modelDic = readData()
 
 	#Plot Distirbution of Models
 	modelFig = plotModelDist(modCount, dataDic)
 	acceptFig = plotAcceptance(chainMax, dataDic)
 
 
-	figList = plotParamters(modCount, chainMax, dataDic)
+	figList = plotParamters(modCount, chainMax, dataDic,modelDic)
 
 	modelFig.savefig('{}ModelDist.png'.format(picDir))
 	acceptFig.savefig('{}Accept.png'.format(picDir))
