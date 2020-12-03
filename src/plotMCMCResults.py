@@ -328,7 +328,7 @@ def plotAcceptance(chainMax, dataDic):
 def plotParamters(modCount, chainMax, dataDic):
 	#Generate a plot (these we are not going to return as there may be a lot)
 	
-	figList = []
+	figList = False
 
 	#print(data[:,0])
 	for k in range(modCount): 
@@ -376,8 +376,9 @@ def plotParamters(modCount, chainMax, dataDic):
 			#plt.cla()
 			#plt.clf()
 
-			figList.append(paramFig)
-			plt.close()
+			#figList.append(paramFig)
+			paramFig.clear()
+			plt.close(paramFig)
 
 		#Plot Loglikelihod for the models 
 		logFig, logAx = plt.subplots(figsize=((WIDTH,HEIGHT)))
@@ -400,8 +401,11 @@ def plotParamters(modCount, chainMax, dataDic):
 			logFig.savefig('{}{}/logLikelihood.png'.format(picDir, modelName))
        
 
-			figList.append(logFig)
-			plt.close()
+			#figList.append(logFig)
+			logFig.clear()
+			plt.close(logFig)
+	figList = True
+	
 	return figList 
 
 
@@ -414,6 +418,7 @@ def plotParamters(modCount, chainMax, dataDic):
 #################################################
 def main():
 	#Read data 
+	print('Plotting Results...')
 	modCount, chainMax, dataDic = readData()
 
 	#Plot Distirbution of Models
