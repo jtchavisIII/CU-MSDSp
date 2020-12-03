@@ -497,13 +497,13 @@ do
   MODELNAME=${MODELARRAY[k]}
   #echo "$MODELNAME"
   #Rename directories first...
-  find . -type d -name "model${k}*" | while read DIRECTORY; do 
+  find . -type d -name "model${k}" | while read DIRECTORY; do 
     newDir="$(echo ${DIRECTORY} | sed -e "s|model${k}|${MODELNAME}|")";
     mv "$DIRECTORY" "$newDir"
   done 
 
   #Find Files of this nature 
-  find . -type f -name 'model*' | while read FILE; do 
+  find "./goldStandardChains/${MODELNAME}/" -type f -name "model${k}*" | while read FILE; do 
     #echo "${k} ${MODELNAME}"
     newfile="$(echo ${FILE} | sed -e "s|model${k}|${MODELNAME}|")";
     #Replace names
