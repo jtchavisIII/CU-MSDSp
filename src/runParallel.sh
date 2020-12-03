@@ -84,6 +84,14 @@ if [ -d  goldStandardChains/ ]; then
 fi	 	
  	mkdir goldStandardChains/ 
 
+
+#File name for timing 
+TIMEFILE=timings.txt
+
+#if [ -f $TIMEFILE ]; then 
+#    rm $TIMEFILE 
+#fi
+
 #Grab Current Direcotry 
 parWD=`pwd`
 
@@ -126,6 +134,9 @@ cd models/
 #Model B	  1
 #....
 #Model N 		N 
+
+#STart time stamping 
+totalStart=`perl -MTime::HiRes -e 'printf("%.0f\n",Time::HiRes::time()*1000)'`
 
 echo "Proccessing Models..."
 MODCOUNT=0
@@ -179,6 +190,11 @@ done
 
 #Make sure all models are built
 wait 
+
+
+#Time stamp of how long it took to build model 
+totalBuilt=`perl -MTime::HiRes -e 'printf("%.0f\n",Time::HiRes::time()*1000)'`
+
 
 cd "$parWD"
 
@@ -240,18 +256,21 @@ done
  wait
 
 
-##################################################
-#
-#							RJMCMC Crawler 
-#
-##################################################
 #USe a python script to create matrices to be read in C. 
 #Essentially .....
 #Then it's a 1d array with data. First two elements will be row and column info.
 cd ../
 MAXPARAM=`python convertCMatrix.py "$NMODEL"|xargs `
 
+#Time stamp to run gold standar modles
+totalGSC=`perl -MTime::HiRes -e 'printf("%.0f\n",Time::HiRes::time()*1000)'`
 
+
+##################################################
+#
+#							RJMCMC Crawler 
+#
+##################################################
 #Great we have converted the gold standd chanins converted and the max paramters. 
 #NOw time to write the RJMCMC Crawler (written in C)
 CURDATE=$(date +"%Y-%m-%d")
@@ -496,6 +515,8 @@ done
 
 mpicc -o runRJMCMC -lm -lgsl -lgslcblas runRJMCMC.c && mpirun -np "$NPROC" ./runRJMCMC 
 
+#Time stamp to run crawler
+totalCrawler=`perl -MTime::HiRes -e 'printf("%.0f\n",Time::HiRes::time()*1000)'`
 
 #Now  Let's try to change files and folders back to 
 #Chagne file names first
@@ -527,6 +548,20 @@ rm -r proccessedModel/
 
 #Should also remove redudent files in gold standard chains 
 find . -type f -name "gsc*.csv" -delete
+
+
+#Add  TIme infO
+echo "Process,Time(s)" > $TIMEFILE 
+
+#Add time to build models
+buildTime=$((totalBuilt-totalStart)) 
+gscTime=$((totalGSC-totalBuilt))
+crawlerTime=$((totalCrawler-totalGSC))
+
+echo "Build Models,$buildTime" >> $TIMEFILE 
+echo "Gold Standard Chains,$gscTime" >> $TIMEFILE 
+echo "RJMCMC Crawlwer,$crawlerTime" >> $TIMEFILE 
+
 
 #For now keep this file as we can use it for plotting..
 #find . -type f -name "*GSC*.csv" -delete
