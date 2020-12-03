@@ -127,7 +127,7 @@ echo "Name,Index" > ../modelIndex.txt
 #Find all files
 #Keep track of index for renaming 
 MODELARRAY=()
-for i in *.stan; do
+for i in `ls -v *.stan`; do
 		#Get name of stan file 
     [ -f "$i" ] || break
     #Add model to Index
