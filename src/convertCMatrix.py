@@ -128,4 +128,5 @@ def main():
 		#print(maxParam)
 		sys.stdout.write(str(maxParam))
 
-main()
+if __name__ == "__main__":
+	main()
