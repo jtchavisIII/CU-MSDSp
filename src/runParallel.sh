@@ -179,8 +179,8 @@ cd ../
 ##################################
 #First Buiid Mc-Stan - See cmdSTAN documentation 
 cd $CMDSTANPATH
-#make clean-all
-#make build -j"$NCORES"
+make clean-all
+make build -j"$NCORES"
 
 
 
