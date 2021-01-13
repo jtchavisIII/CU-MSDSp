@@ -144,10 +144,15 @@ echo "Name,Index" > ../modelIndex.txt
 
 
 #Find all files
-#Keep track of index for renaming 
+#Keep track of index for renaming
+#This help accoutn for file names with spaces
+SAVEIFS=$IFS
+IFS=$(echo -en "\n\b")
+ 
 MODELARRAY=()
 for i in `ls -v *.stan`; do
-		#Get name of stan file 
+	#Get name of stan file 
+    echo "$i"
     [ -f "$i" ] || break
     #Add model to Index
     echo "${i%.*},${MODCOUNT}" >> ../modelIndex.txt
@@ -161,10 +166,11 @@ for i in `ls -v *.stan`; do
 	  MODCOUNT=$((MODCOUNT+1))
 done
 
+#Revet back 
+IFS=$SAVEIFS
 #echo "${MODELARRAY[@]}"
 #Return back to main directoy 
 cd ../
-
 
 ###################################
 #
@@ -173,8 +179,8 @@ cd ../
 ##################################
 #First Buiid Mc-Stan - See cmdSTAN documentation 
 cd $CMDSTANPATH
-make clean-all
-make build -j"$NCORES"
+#make clean-all
+#make build -j"$NCORES"
 
 
 
@@ -187,6 +193,7 @@ do
 	make "$parWD/proccessedModel/model$i" > /dev/null & 
 	echo "Model $i Built."
 done
+
 
 #Make sure all models are built
 wait 
@@ -513,7 +520,7 @@ do
 done
 
 
-mpicc -o runRJMCMC -lm -lgsl -lgslcblas runRJMCMC.c && mpirun -np "$NPROC" ./runRJMCMC 
+mpicc -o runRJMCMC -lm -lgsl -lgslcblas runRJMCMC.c && mpirun -np "$NPROC" --oversubscribe ./runRJMCMC 
 
 #Time stamp to run crawler
 totalCrawler=`perl -MTime::HiRes -e 'printf("%.0f\n",Time::HiRes::time()*1000)'`

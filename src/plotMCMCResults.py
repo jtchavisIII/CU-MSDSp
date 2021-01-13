@@ -113,11 +113,11 @@ ALPHA = 0.7
 HEIGHT = 20
 WIDTH = 20
 
-DEFAULTSIZE = 12
+DEFAULTSIZE = 18
 AXTITLESIZE = 45
 LABELSIZE = 32
 TICKSIZE = 28
-LEGENDSIZE = 14
+LEGENDSIZE = 28
 FIGTITLESIZE = 32
 
 plt.rc('font', size=DEFAULTSIZE)
@@ -315,6 +315,7 @@ def plotAcceptance(chainMax, dataDic):
 		acceptAx.plot(np.arange(0,chainLength), data[:], color= colorOpt[chain][0], linestyle=colorOpt[chain][1], linewidth = LINEWIDTH, label= 'Chain {}'.format(chain+1), alpha=ALPHA)
 
 	#fullAx.set_xlabel('Time')
+	acceptAx.set_xlabel('Iteration')
 	acceptAx.set_ylabel('Accept Ratio')
 	acceptAx.set_ylim((0,1))
 	#acceptAx.set_xlabel('Chain')
@@ -363,8 +364,8 @@ def plotParamters(modCount, chainMax, dataDic,modelDic):
 
 				#Plot traces 
 				paramAx[1].plot(x, data, color= colorOpt[chain-1][0], linestyle=colorOpt[chain-1][1], linewidth = LINEWIDTH, label= 'Chain {}'.format(chain), alpha=ALPHA)
-
-
+				
+			paramAx[1].set_xlabel('Iteration')
 			paramAx[1].set_ylabel(parName)
 			paramAx[1].set_title('Trace Plot')
 			paramAx[1].legend(loc='lower right',facecolor='white', framealpha=0.3,ncol=2)
@@ -396,8 +397,8 @@ def plotParamters(modCount, chainMax, dataDic,modelDic):
 
 			#Plot traces 
 			logAx.plot(x, data, color= colorOpt[chain-1][0], linestyle=colorOpt[chain-1][1], linewidth = LINEWIDTH, label= 'Chain {}'.format(chain), alpha=ALPHA)
-
-
+			
+			logAx.set_xlabel('Iteration')
 			logAx.set_ylabel('Log-Likelihood')
 			logAx.legend(loc='lower right',facecolor='white', framealpha=0.3,ncol=2)
 			logAx.set_title('{} Log-Likelihood Plot'.format(dataDic['modelName'][k]))
@@ -406,9 +407,9 @@ def plotParamters(modCount, chainMax, dataDic,modelDic):
 			logFig.savefig('{}{}/logLikelihood.png'.format(picDir, modelName))
        
 
-			#figList.append(logFig)
-			logFig.clear()
-			plt.close(logFig)
+		#figList.append(logFig)
+		logFig.clear()
+		plt.close(logFig)
 	figList = True
 	
 	return figList 
