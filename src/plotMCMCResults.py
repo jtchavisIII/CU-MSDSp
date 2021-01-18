@@ -291,8 +291,8 @@ def plotModelDist(modCount, dataDic):
 		barList[k].set_color(colorOpt[k][0])
 
 	modelAx.set_title('Model Distribution')
-	modelAx.set_xlabel('Model Index')
-	modelAx.set_ylabel('Counts')
+	modelAx.set_xlabel('Model Index', fontweight='bold')
+	modelAx.set_ylabel('Counts', fontweight='bold')
 	plt.xticks(x,dataDic['modelName'])
 
 	return modelFig
@@ -315,8 +315,8 @@ def plotAcceptance(chainMax, dataDic):
 		acceptAx.plot(np.arange(0,chainLength), data[:], color= colorOpt[chain][0], linestyle=colorOpt[chain][1], linewidth = LINEWIDTH, label= 'Chain {}'.format(chain+1), alpha=ALPHA)
 
 	#fullAx.set_xlabel('Time')
-	acceptAx.set_xlabel('Iteration')
-	acceptAx.set_ylabel('Accept Ratio')
+	acceptAx.set_xlabel('Iteration', fontweight='bold')
+	acceptAx.set_ylabel('Accept Ratio', fontweight='bold')
 	acceptAx.set_ylim((0,1))
 	#acceptAx.set_xlabel('Chain')
 	acceptAx.legend(loc='lower right',facecolor='white', framealpha=0.3,ncol=2)
@@ -365,17 +365,17 @@ def plotParamters(modCount, chainMax, dataDic,modelDic):
 				#Plot traces 
 				paramAx[1].plot(x, data, color= colorOpt[chain-1][0], linestyle=colorOpt[chain-1][1], linewidth = LINEWIDTH, label= 'Chain {}'.format(chain), alpha=ALPHA)
 				
-			paramAx[1].set_xlabel('Iteration')
-			paramAx[1].set_ylabel(parName)
+			paramAx[1].set_xlabel('Iteration', fontweight='bold')
+			paramAx[1].set_ylabel(parName, fontweight='bold')
 			paramAx[1].set_title('Trace Plot')
 			paramAx[1].legend(loc='lower right',facecolor='white', framealpha=0.3,ncol=2)
 			#paramAx[1].legend(loc='lower right',facecolor='black', framealpha=0.3,ncol=2)
 
 			#PLot Distribution 	
 			paramAx[0].hist(data, BINS,  density= True, facecolor= colorOpt[k][0], alpha=ALPHA)
-			paramAx[0].set_xlabel(parName)
-			paramAx[0].set_ylabel('Denisty')
-			paramAx[0].set_title('Paramter Distribution')
+			paramAx[0].set_xlabel(parName, fontweight='bold')
+			paramAx[0].set_ylabel('Denisty', fontweight='bold')
+			paramAx[0].set_title('Parameter Distribution')
 
 			#save fig 
 			paramFig.savefig('{}{}/{}Plot.png'.format(picDir,modelName,parName))
@@ -398,8 +398,8 @@ def plotParamters(modCount, chainMax, dataDic,modelDic):
 			#Plot traces 
 			logAx.plot(x, data, color= colorOpt[chain-1][0], linestyle=colorOpt[chain-1][1], linewidth = LINEWIDTH, label= 'Chain {}'.format(chain), alpha=ALPHA)
 			
-			logAx.set_xlabel('Iteration')
-			logAx.set_ylabel('Log-Likelihood')
+			logAx.set_xlabel('Iteration', fontweight='bold')
+			logAx.set_ylabel('Log-Likelihood', fontweight='bold')
 			logAx.legend(loc='lower right',facecolor='white', framealpha=0.3,ncol=2)
 			logAx.set_title('{} Log-Likelihood Plot'.format(dataDic['modelName'][k]))
 			#logAx.legend(loc='lower right',facecolor='black', framealpha=0.3,fontsize=12,ncol=2)
